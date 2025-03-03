@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth.views import LogoutView
 from .views import signup_view, CustomLoginView, signup_success, signin_success
 
@@ -8,4 +8,5 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("signup-success/", signup_success, name="signup_success"),
     path("signin-success/", signin_success, name="signin_success"),
+
 ]
