@@ -39,3 +39,14 @@ def update_ticket(request, ticket_id):
         form = TicketForm(instance=ticket)
 
     return render(request, "tickets/update_ticket.html", {"form": form, "ticket": ticket})
+
+@login_required
+def delete_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+
+    if ticket.user != request.user:
+        return HttpResponseForbidden("Vous n'êtes pas autorisé à supprimer ce ticket.")
+
+    if request.method == "POST":
+        ticket.delete()
+    return redirect("ticket_list")

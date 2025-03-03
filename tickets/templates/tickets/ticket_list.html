@@ -22,7 +22,14 @@
 
             <div class="mt-4">
                 {% if ticket.user == request.user %}
-                    <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-500 hover:underline">Modifier</a>
+                    <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-500 hover:underline">Modifier</a> |
+                    <form action="{% url 'delete_ticket' ticket.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="text-red-500 hover:underline"
+                            onclick="return confirm('Voulez-vous vraiment supprimer ce ticket ?');">
+                            Supprimer
+                        </button>
+                    </form>
                 {% endif %}
             </div>
         </div>
