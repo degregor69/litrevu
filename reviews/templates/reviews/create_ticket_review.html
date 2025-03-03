@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Créer un Ticket & Review{% endblock %}
+
+{% block content %}
+<div class="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h2 class="text-2xl font-semibold text-center mb-4">Créer une Critique avec un Ticket</h2>
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        <div class="space-y-2">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+            Publier
+        </button>
+    </form>
+</div>
+{% endblock %}
