@@ -40,6 +40,13 @@
                 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md mt-4">
                     {% if review.user == request.user %}
                         <a href="{% url 'edit_review' review.id %}" class="text-blue-500 hover:underline">Modifier</a>
+                        <form action="{% url 'delete_review' review.id %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="text-red-500 hover:underline"
+                                    onclick="return confirm('Voulez-vous vraiment supprimer ce review ?');">
+                                Supprimer
+                            </button>
+                        </form>
                     {% endif %}
                     <p class="text-sm text-gray-500">
                         <strong>{{ review.user.username }}</strong> a publié une critique

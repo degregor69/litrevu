@@ -53,3 +53,13 @@ def edit_review(request, review_id):
         form = ReviewForm(instance=review)
 
     return render(request, "reviews/edit_review.html", {"form": form})
+
+
+@login_required
+def delete_review(request, review_id):
+    review = get_object_or_404(Review, id=review_id)
+
+    if review.user == request.user:
+        review.delete()
+
+    return redirect('ticket_list')
