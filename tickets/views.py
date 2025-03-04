@@ -1,6 +1,8 @@
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+from reviews.models import Review
 from .forms import TicketForm
 from .models import Ticket
 
@@ -22,6 +24,8 @@ def create_ticket(request):
 @login_required
 def ticket_list(request):
     tickets = Ticket.objects.all().order_by("-time_created")
+    for ticket in tickets:
+        ticket.has_user_review = Review.objects.filter(ticket=ticket, user=request.user).exists()
     return render(request, "tickets/ticket_list.html", {"tickets": tickets})
 
 

@@ -22,7 +22,7 @@
 
         <div class="mt-4">
             {% if ticket.user == request.user %}
-                <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-500 hover:underline">Modifier</a> |
+                <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-500 hover:underline">Modifier</a>
                 <form action="{% url 'delete_ticket' ticket.id %}" method="post" style="display:inline;">
                     {% csrf_token %}
                     <button type="submit" class="text-red-500 hover:underline"
@@ -30,6 +30,9 @@
                         Supprimer
                     </button>
                 </form>
+            {% endif %}
+            {% if not ticket.has_user_review %}
+                <a href="{% url 'create_review' ticket.id %}" class="text-green-500 hover:underline">Ajouter une critique</a>
             {% endif %}
         </div>
 
@@ -40,7 +43,7 @@
                      <a href="{% url 'edit_review' review.id %}" class="text-blue-500 hover:underline">Modifier</a>
                 {% endif %}
                     <p class="text-sm text-gray-500">
-                        Vous avez publié une critique
+                         {{   review.user.username }} publié une critique
                         <span class="float-right">{{ review.time_created|date:"H:i, d F Y" }}</span>
                     </p>
 

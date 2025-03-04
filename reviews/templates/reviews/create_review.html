@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-lg mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
+    <h2 class="text-2xl font-bold mb-4">Ajouter une critique</h2>
+    <p class="mb-4"><strong>Ticket :</strong> {{ ticket.title }}</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">
+            Publier la critique
+        </button>
+    </form>
+</div>
+{% endblock %}
