@@ -11,30 +11,58 @@
     </a>
 
     {% for ticket in tickets %}
-        <div class="border-b py-4">
-            <h3 class="text-lg font-semibold">{{ ticket.title }}</h3>
-            <p class="text-gray-600">{{ ticket.description }}</p>
-            <p class="text-sm text-gray-500">Publié par <strong>{{ ticket.user.username }}</strong> le {{ ticket.time_created|date:"d/m/Y H:i" }}</p>
+    <div class="border-b py-4">
+        <h3 class="text-lg font-semibold">{{ ticket.title }}</h3>
+        <p class="text-gray-600">{{ ticket.description }}</p>
+        <p class="text-sm text-gray-500">Publié par <strong>{{ ticket.user.username }}</strong> le {{ ticket.time_created|date:"d/m/Y H:i" }}</p>
 
-            {% if ticket.image %}
-                <img src="{{ ticket.image.url }}" alt="Image du ticket" class="mt-2 w-full h-auto rounded-lg">
+        {% if ticket.image %}
+            <img src="{{ ticket.image.url }}" alt="Image du ticket" class="mt-2 w-full h-auto rounded-lg">
+        {% endif %}
+
+        <div class="mt-4">
+            {% if ticket.user == request.user %}
+                <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-500 hover:underline">Modifier</a> |
+                <form action="{% url 'delete_ticket' ticket.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="text-red-500 hover:underline"
+                        onclick="return confirm('Voulez-vous vraiment supprimer ce ticket ?');">
+                        Supprimer
+                    </button>
+                </form>
             {% endif %}
+        </div>
 
-            <div class="mt-4">
-                {% if ticket.user == request.user %}
-                    <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-500 hover:underline">Modifier</a> |
-                    <form action="{% url 'delete_ticket' ticket.id %}" method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="text-red-500 hover:underline"
-                            onclick="return confirm('Voulez-vous vraiment supprimer ce ticket ?');">
-                            Supprimer
-                        </button>
-                    </form>
-                {% endif %}
-            </div>
+        {% if ticket.review_set.exists %}
+            {% with review=ticket.review_set.first %}
+                <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md mt-4">
+                    <p class="text-sm text-gray-500">
+                        Vous avez publié une critique
+                        <span class="float-right">{{ review.time_created|date:"H:i, d F Y" }}</span>
+                    </p>
+
+                    <h2 class="text-xl font-bold mt-2">{{ review.headline }}</h2>
+                    <div class="flex items-center space-x-1 text-yellow-500">
+                        <span>{% for _ in "x"|rjust:review.rating %}★{% endfor %}</span>
+                    </div>
+
+                    <p class="mt-2 text-gray-700">{{ review.body }}</p>
+
+                    <div class="border border-gray-300 p-4 mt-4">
+                        <p class="text-sm font-semibold">Ticket - {{ review.user.username }}</p>
+                        <p class="text-lg font-semibold">{{ ticket.title }}</p>
+                        <div class="mt-2">
+                            {% if ticket.image %}
+                                <img src="{{ ticket.image.url }}" alt="Image du ticket" class="w-32 h-auto border border-gray-400">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endwith %}
+        {% endif %}
         </div>
     {% empty %}
-        <p class="text-center text-gray-500">Aucun ticket disponible.</p>
+        <p class="text-gray-500">Aucun ticket disponible.</p>
     {% endfor %}
 </div>
 {% endblock %}
