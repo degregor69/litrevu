@@ -30,3 +30,15 @@ class TicketReviewForm(forms.ModelForm):
         )
 
         return ticket_list
+
+
+class ReviewForm(forms.ModelForm):
+    class Meta:
+        model = Review
+        fields = ["headline", "rating", "body"]
+
+        widgets = {
+            "headline": forms.TextInput(attrs={"class": "w-full p-2 border rounded"}),
+            "rating": forms.NumberInput(attrs={"class": "w-full p-2 border rounded", "min": 0, "max": 5}),
+            "body": forms.Textarea(attrs={"class": "w-full p-2 border rounded", "rows": 4}),
+        }
