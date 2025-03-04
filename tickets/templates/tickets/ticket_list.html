@@ -35,15 +35,14 @@
                 <a href="{% url 'create_review' ticket.id %}" class="text-green-500 hover:underline">Ajouter une critique</a>
             {% endif %}
         </div>
-
         {% if ticket.review_set.exists %}
-            {% with review=ticket.review_set.first %}
+            {% for review in ticket.review_set.all %}
                 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md mt-4">
-                {% if review.user == request.user %}
-                     <a href="{% url 'edit_review' review.id %}" class="text-blue-500 hover:underline">Modifier</a>
-                {% endif %}
+                    {% if review.user == request.user %}
+                        <a href="{% url 'edit_review' review.id %}" class="text-blue-500 hover:underline">Modifier</a>
+                    {% endif %}
                     <p class="text-sm text-gray-500">
-                         {{   review.user.username }} publié une critique
+                        <strong>{{ review.user.username }}</strong> a publié une critique
                         <span class="float-right">{{ review.time_created|date:"H:i, d F Y" }}</span>
                     </p>
 
@@ -53,7 +52,7 @@
                     </div>
                     <p class="mt-2 text-gray-700">{{ review.body }}</p>
                 </div>
-            {% endwith %}
+            {% endfor %}
         {% endif %}
         </div>
     {% empty %}
