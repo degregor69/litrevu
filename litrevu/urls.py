@@ -24,5 +24,6 @@ urlpatterns = [
     path("tickets/", include("tickets.urls")),
 
         path("reviews/", include("reviews.urls")),
+path("follows/", include("follows.urls")),
 ]
 

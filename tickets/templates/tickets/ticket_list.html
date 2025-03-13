@@ -35,33 +35,7 @@
                 <a href="{% url 'create_review' ticket.id %}" class="text-green-500 hover:underline">Ajouter une critique</a>
             {% endif %}
         </div>
-        {% if ticket.review_set.exists %}
-            {% for review in ticket.review_set.all %}
-                <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md mt-4">
-                    {% if review.user == request.user %}
-                        <a href="{% url 'edit_review' review.id %}" class="text-blue-500 hover:underline">Modifier</a>
-                        <form action="{% url 'delete_review' review.id %}" method="post" style="display:inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="text-red-500 hover:underline"
-                                    onclick="return confirm('Voulez-vous vraiment supprimer ce review ?');">
-                                Supprimer
-                            </button>
-                        </form>
-                    {% endif %}
-                    <p class="text-sm text-gray-500">
-                        <strong>{{ review.user.username }}</strong> a publié une critique
-                        <span class="float-right">{{ review.time_created|date:"H:i, d F Y" }}</span>
-                    </p>
-
-                    <h2 class="text-xl font-bold mt-2">{{ review.headline }}</h2>
-                    <div class="flex items-center space-x-1 text-yellow-500">
-                        <span>{% for _ in "x"|rjust:review.rating %}★{% endfor %}</span>
-                    </div>
-                    <p class="mt-2 text-gray-700">{{ review.body }}</p>
-                </div>
-            {% endfor %}
-        {% endif %}
-        </div>
+    </div>
     {% empty %}
         <p class="text-gray-500">Aucun ticket disponible.</p>
     {% endfor %}
