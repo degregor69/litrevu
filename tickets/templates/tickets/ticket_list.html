@@ -12,6 +12,16 @@
 
     {% for ticket in tickets %}
     <div class="border-b py-4">
+        {% if ticket.user == request.user %}
+            <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-500 hover:underline">Modifier</a>
+            <form action="{% url 'delete_ticket' ticket.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="text-red-500 hover:underline"
+                    onclick="return confirm('Voulez-vous vraiment supprimer ce ticket ?');">
+                    Supprimer
+                </button>
+            </form>
+        {% endif %}
         <h3 class="text-lg font-semibold">{{ ticket.title }}</h3>
         <p class="text-gray-600">{{ ticket.description }}</p>
         <p class="text-sm text-gray-500">Publié par <strong>{{ ticket.user.username }}</strong> le {{ ticket.time_created|date:"d/m/Y H:i" }}</p>
@@ -21,16 +31,6 @@
         {% endif %}
 
         <div class="mt-4">
-            {% if ticket.user == request.user %}
-                <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-500 hover:underline">Modifier</a>
-                <form action="{% url 'delete_ticket' ticket.id %}" method="post" style="display:inline;">
-                    {% csrf_token %}
-                    <button type="submit" class="text-red-500 hover:underline"
-                        onclick="return confirm('Voulez-vous vraiment supprimer ce ticket ?');">
-                        Supprimer
-                    </button>
-                </form>
-            {% endif %}
             {% if not ticket.has_user_review %}
                 <a href="{% url 'create_review' ticket.id %}" class="text-green-500 hover:underline">Ajouter une critique</a>
             {% endif %}
