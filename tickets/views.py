@@ -13,9 +13,9 @@ def create_ticket(request):
         form = TicketForm(request.POST, request.FILES)
         if form.is_valid():
             ticket = form.save(commit=False)
-            ticket.user = request.user  # Associer le ticket à l'utilisateur connecté
+            ticket.user = request.user
             ticket.save()
-            return redirect("signin_success")  # À remplacer par la page où l'on veut rediriger
+            return redirect("signin_success")
     else:
         form = TicketForm()
 
