@@ -1,30 +1,19 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
-    <div class="mt-6">
-    {% if users_to_follow %}
-        <form method="POST" action="{% url 'follow' %}">
+    <div class="mb-4 flex items-center space-x-2">
+        <form class="flex gap-2" method="POST" action="{% url 'follow' %}">
             {% csrf_token %}
-            <div class="flex items-center space-x-2 mb-2">
-                <select name="user_id" class="p-2 border rounded w-full">
-                    <option value="" disabled selected>Sélectionnez un utilisateur</option>
-                    {% for user in users_to_follow %}
-                        <option value="{{ user.id }}">{{ user.username }}</option>
-                    {% endfor %}
-                </select>
-                <button type="submit" class="p-2 bg-blue-500 text-white rounded mb-2">S'abonner</button>
-            </div>
-
+            <input type="text" name="username" placeholder="Entrez le nom de l'utilisateur..." class="p-2 border rounded w-full">
+            <button type="submit" class="p-2 bg-blue-500 text-white rounded">S'abonner</button>
         </form>
-        {% endif %}
-        {% if not users_to_follow %}
-            <p class="text-gray-500 mt-4">Vous suivez déjà tous les utilisateurs disponibles.</p>
-        {% endif %}
-        <div class="mb-4">
-            <input type="text" id="searchUser" placeholder="Rechercher un utilisateur..." class="p-2 border rounded w-full">
-            <ul id="searchResults" class="border rounded mt-2 bg-white"></ul>
-        </div>
     </div>
+    <p id="message" class="text-gray-500 gap-2">
+        {% if message %}
+            {{ message }}
+        {% endif %}
+    </p>
+
     <div class="mb-6">
         <h3 class="text-xl font-semibold text-gray-700 mb-2">Abonnements</h3>
         {% if following %}
@@ -37,7 +26,7 @@
                         <button type="submit" class="p-1 bg-red-500 text-white rounded">Se désabonner</button>
                     </form>
                 </li>
-            {% endfor %}
+                {% endfor %}
             </ul>
         {% else %}
             <p class="text-gray-500">Vous ne suivez personne pour le moment.</p>
@@ -57,51 +46,4 @@
         {% endif %}
     </div>
 </div>
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("searchUser");
-    const resultsList = document.getElementById("searchResults");
-
-    searchInput.addEventListener("input", function () {
-        const query = searchInput.value.trim();
-        if (query.length < 2) {
-            resultsList.innerHTML = "";
-            return;
-        }
-
-        fetch(`/search-users/?q=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                resultsList.innerHTML = "";
-                data.forEach(user => {
-                    const li = document.createElement("li");
-                    li.textContent = user.username;
-                    li.classList.add("p-2", "hover:bg-gray-100", "cursor-pointer");
-                    li.addEventListener("click", function () {
-                        subscribeUser(user.id, user.username);
-                    });
-                    resultsList.appendChild(li);
-                });
-            });
-    });
-
-    function subscribeUser(userId, username) {
-        fetch("{% url 'follow' %}", {
-            method: "POST",
-            headers: {
-                "X-CSRFToken": "{{ csrf_token }}",
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: `user_id=${userId}`
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(`Vous suivez maintenant ${username} !`);
-            searchInput.value = "";
-            resultsList.innerHTML = "";
-        });
-    }
-});
-</script>
-
 {% endblock %}

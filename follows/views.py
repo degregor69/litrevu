@@ -24,19 +24,34 @@ def unfollow(request, follow_id):
 
 @login_required
 def follow(request):
-    user_id = request.POST.get('user_id')
-    if user_id:
-        user_to_follow = get_object_or_404(CustomUser, id=user_id)
+    message = None
+    if request.method == 'POST':
+        username = request.POST.get('username')
 
-        if not UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists():
-            UserFollows.objects.create(user=request.user, followed_user=user_to_follow)
+        if username:
+            user_to_follow = get_object_or_404(CustomUser, username=username)
 
-    return redirect('follows_index')
+            if not UserFollows.objects.filter(user=request.user, followed_user=user_to_follow).exists():
+                UserFollows.objects.create(user=request.user, followed_user=user_to_follow)
+                message = f"Vous suivez maintenant {user_to_follow.username} !"
+            else:
+                message = f"Vous suivez déjà {user_to_follow.username}."
+        else:
+            message = "Veuillez entrer un nom d'utilisateur valide."
+
+    following = UserFollows.objects.filter(user=request.user)
+    followers = UserFollows.objects.filter(followed_user=request.user)
+
+    return render(request, 'follows_index.html', {
+        'following': following,
+        'followers': followers,
+        'message': message,
+    })
 
 
 def search_users(request):
     query = request.GET.get("q", "").strip()
-    users = CustomUser.objects.filter(username__icontains=query)[:10]  # Limiter à 10 résultats
+    users = CustomUser.objects.filter(username__icontains=query)[:10]
     data = [{"id": user.id, "username": user.username} for user in users]
     return JsonResponse(data, safe=False)
 
