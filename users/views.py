@@ -26,7 +26,7 @@ class CustomLoginView(LoginView):
 
 def logout_view(request):
     logout(request)
-    return redirect("home")
+    return redirect(reverse_lazy("login"))
 
 
 def signup_success(request):

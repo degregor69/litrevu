@@ -3,12 +3,17 @@
 {% block title %}Liste des Tickets{% endblock %}
 
 {% block content %}
-<div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+<section class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
     <h2 class="text-2xl font-semibold text-center mb-6">Liste des Tickets</h2>
+    <div class="flex gap-2">
+        <a href="{% url 'create_ticket' %}" class="block w-full text-center bg-green-600 text-white py-2 rounded hover:bg-green-700 mb-4">
+            Ajouter un Ticket
+        </a>
+        <a href="{% url 'create_ticket_review' %}" class="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 mb-4">
+            Créer une Review
+        </a>
+    </div>
 
-    <a href="{% url 'create_ticket' %}" class="block w-full text-center bg-green-600 text-white py-2 rounded hover:bg-green-700 mb-4">
-        + Ajouter un Ticket
-    </a>
 
     {% for ticket in tickets %}
     <div class="border-b py-4">
@@ -39,5 +44,5 @@
     {% empty %}
         <p class="text-gray-500">Aucun ticket disponible.</p>
     {% endfor %}
-</div>
+</section>
 {% endblock %}
