@@ -3,6 +3,8 @@ from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
+from reviews.models import Review
+from tickets.models import Ticket
 from .forms import SignUpForm
 
 def signup_view(request):
@@ -34,3 +36,14 @@ def signup_success(request):
 
 def signin_success(request):
     return render(request, "users/signin_success.html")
+
+def user_posts(request):
+    user_tickets = Ticket.objects.filter(user=request.user)
+    user_reviews = Review.objects.filter(user=request.user)
+
+    context = {
+        "user_tickets": user_tickets,
+        "user_reviews": user_reviews
+    }
+
+    return render(request, "users/posts.html", context)
