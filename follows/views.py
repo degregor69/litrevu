@@ -1,15 +1,17 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from .models import UserFollows
 from users.models import CustomUser
 
 @login_required
 def follows_index(request):
-    all_users = CustomUser.objects.exclude(id=request.user.id).filter(is_superuser=False)
     followers = UserFollows.objects.filter(followed_user=request.user)
     following = UserFollows.objects.filter(user=request.user)
 
     following_ids = following.values_list("followed_user__id", flat=True)
+
+    all_users = CustomUser.objects.exclude(id=request.user.id).filter(is_superuser=False)
     users_to_follow = all_users.exclude(id__in=following_ids)
     return render(request, "follows_index.html", {"users_to_follow": users_to_follow,"followers": followers, "following": following})
 
@@ -30,3 +32,11 @@ def follow(request):
             UserFollows.objects.create(user=request.user, followed_user=user_to_follow)
 
     return redirect('follows_index')
+
+
+def search_users(request):
+    query = request.GET.get("q", "").strip()
+    users = CustomUser.objects.filter(username__icontains=query)[:10]  # Limiter à 10 résultats
+    data = [{"id": user.id, "username": user.username} for user in users]
+    return JsonResponse(data, safe=False)
+

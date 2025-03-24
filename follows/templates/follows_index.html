@@ -14,11 +14,16 @@
                 </select>
                 <button type="submit" class="p-2 bg-blue-500 text-white rounded mb-2">S'abonner</button>
             </div>
+
         </form>
         {% endif %}
         {% if not users_to_follow %}
             <p class="text-gray-500 mt-4">Vous suivez déjà tous les utilisateurs disponibles.</p>
         {% endif %}
+        <div class="mb-4">
+            <input type="text" id="searchUser" placeholder="Rechercher un utilisateur..." class="p-2 border rounded w-full">
+            <ul id="searchResults" class="border rounded mt-2 bg-white"></ul>
+        </div>
     </div>
     <div class="mb-6">
         <h3 class="text-xl font-semibold text-gray-700 mb-2">Abonnements</h3>
@@ -52,4 +57,51 @@
         {% endif %}
     </div>
 </div>
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("searchUser");
+    const resultsList = document.getElementById("searchResults");
+
+    searchInput.addEventListener("input", function () {
+        const query = searchInput.value.trim();
+        if (query.length < 2) {
+            resultsList.innerHTML = "";
+            return;
+        }
+
+        fetch(`/search-users/?q=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                resultsList.innerHTML = "";
+                data.forEach(user => {
+                    const li = document.createElement("li");
+                    li.textContent = user.username;
+                    li.classList.add("p-2", "hover:bg-gray-100", "cursor-pointer");
+                    li.addEventListener("click", function () {
+                        subscribeUser(user.id, user.username);
+                    });
+                    resultsList.appendChild(li);
+                });
+            });
+    });
+
+    function subscribeUser(userId, username) {
+        fetch("{% url 'follow' %}", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": "{{ csrf_token }}",
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: `user_id=${userId}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(`Vous suivez maintenant ${username} !`);
+            searchInput.value = "";
+            resultsList.innerHTML = "";
+        });
+    }
+});
+</script>
+
 {% endblock %}
