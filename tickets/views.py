@@ -3,7 +3,7 @@ from itertools import chain
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.db.models import CharField, Value
+from django.db.models import CharField, Value, Exists, OuterRef
 
 from follows.models import UserFollows
 from reviews.models import Review
@@ -58,8 +58,11 @@ def feed(request):
     followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
 
     tickets = Ticket.objects.filter(user__in=list(followed_users) + [user]).annotate(
-        content_type=Value('TICKET', CharField()))
-
+        content_type=Value('TICKET', CharField()),
+        has_user_review=Exists(
+            Review.objects.filter(ticket=OuterRef('pk'), user=user)
+        )
+    )
     user_tickets = Ticket.objects.filter(user=user)
     reviews = Review.objects.filter(ticket__in=user_tickets) | Review.objects.filter(
         user__in=list(followed_users) + [user])

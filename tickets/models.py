@@ -11,5 +11,5 @@ class Ticket(models.Model):
     image = models.ImageField(null=True, blank=True, upload_to="ticket_images/")
     time_created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
-        return self.title
+    def has_user_review(self, user):
+        return self.review_set.filter(user=user).exists()
