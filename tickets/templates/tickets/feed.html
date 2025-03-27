@@ -3,7 +3,14 @@
 {% block content %}
     <div class="max-w-2xl mx-auto p-4">
         <h2 class="text-2xl font-bold mb-4">Fil d'actualités</h2>
-
+        <div class="flex gap-2">
+        <a href="{% url 'create_ticket' %}" class="block w-full text-center bg-green-600 text-white py-2 rounded hover:bg-green-700 mb-4">
+            Ajouter un Ticket
+        </a>
+        <a href="{% url 'create_ticket_review' %}" class="block w-full text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 mb-4">
+            Créer une Review
+        </a>
+        </div>
         {% for post in posts %}
             {% if post.content_type == "TICKET" %}
                 <div class="border-b border-gray-600 py-4">
