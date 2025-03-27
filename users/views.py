@@ -1,4 +1,5 @@
 from django.contrib.auth import login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
@@ -20,11 +21,8 @@ def signup_view(request):
 
 class CustomLoginView(LoginView):
     template_name = "users/login.html"
-
     success_url = reverse_lazy("signin_success")
 
-    def get_success_url(self):
-        return self.success_url
 
 def logout_view(request):
     logout(request)
@@ -37,6 +35,7 @@ def signup_success(request):
 def signin_success(request):
     return render(request, "users/signin_success.html")
 
+@login_required
 def user_posts(request):
     user_tickets = Ticket.objects.filter(user=request.user)
     user_reviews = Review.objects.filter(user=request.user)
