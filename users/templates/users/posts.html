@@ -44,8 +44,8 @@
     <h3 class="text-xl font-semibold mt-6">Mes Reviews</h3>
     {% for review in user_reviews %}
     <div class="border-b py-4">
-        <h4 class="text-lg font-semibold">{{ review.title }}</h4>
-        <p class="text-gray-600">{{ review.content }}</p>
+        <h4 class="text-lg font-semibold">{{ review.headline }}</h4>
+        <p class="text-gray-600">{{ review.body }}</p>
         <p class="text-sm text-gray-500">Publié le {{ review.time_created|date:"d/m/Y H:i" }}</p>
 
         <div class="mt-4 flex gap-2">
