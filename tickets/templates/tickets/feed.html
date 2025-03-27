@@ -6,7 +6,7 @@
 
         {% for post in posts %}
             {% if post.content_type == "TICKET" %}
-                <div class="border-b py-4">
+                <div class="border-b border-gray-600 py-4">
                     {% if post.user == request.user %}
                         <a href="{% url 'update_ticket' post.id %}" class="text-blue-500 hover:underline">Modifier</a>
                         <form action="{% url 'delete_ticket' post.id %}" method="post" style="display:inline;">
@@ -34,7 +34,7 @@
                 </div>
 
             {% elif post.content_type == "REVIEW" %}
-                <div class="border-b py-6">
+                <div class="border-b border-gray-600 py-6">
                     <h3 class="text-lg font-bold text-purple-600">{{ post.headline }}</h3>
                     <p class="text-gray-700">{{ post.body }}</p>
                     <p class="text-sm text-gray-500">Critique rédigée par <strong>{{ post.user.username }}</strong> le {{ post.time_created|date:"d/m/Y H:i" }}</p>
@@ -43,7 +43,7 @@
                     <p class="text-yellow-500">Note : {% for _ in "12345"|slice:post.rating %}⭐{% endfor %}</p>
 
                     <!-- Affichage du ticket concerné par la review -->
-                    <div class="border-2 border-black p-4 mt-4">
+                    <div class="w-[80%] border-2 border-gray-300 p-4 mt-4 rounded-xl">
                         <h4 class="text-md font-semibold">{{ post.ticket.title }}</h4>
                         <p class="text-gray-600">{{ post.ticket.description }}</p>
                         <p class="text-sm text-gray-500">Publié par <strong>{{ post.ticket.user.username }}</strong> le {{ post.ticket.time_created|date:"d/m/Y H:i" }}</p>
