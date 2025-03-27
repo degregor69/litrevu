@@ -20,9 +20,11 @@ from django.urls import path, include
 
 from litrevu import settings
 from users.views import user_posts
+from tickets.views import ticket_list
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("", ticket_list, name="home"),
     path("users/", include("users.urls")),
     path("tickets/", include("tickets.urls")),
     path("reviews/", include("reviews.urls")),
