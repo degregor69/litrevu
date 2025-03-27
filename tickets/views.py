@@ -1,7 +1,11 @@
+from itertools import chain
+
 from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import CharField, Value
 
+from follows.models import UserFollows
 from reviews.models import Review
 from .forms import TicketForm
 from .models import Ticket
@@ -20,14 +24,6 @@ def create_ticket(request):
         form = TicketForm()
 
     return render(request, "tickets/create_ticket.html", {"form": form})
-
-@login_required
-def ticket_list(request):
-    tickets = Ticket.objects.all().order_by("-time_created")
-    for ticket in tickets:
-        ticket.has_user_review = Review.objects.filter(ticket=ticket, user=request.user).exists()
-    return render(request, "tickets/ticket_list.html", {"tickets": tickets})
-
 
 @login_required
 def update_ticket(request, ticket_id):
@@ -54,3 +50,21 @@ def delete_ticket(request, ticket_id):
     if request.method == "POST":
         ticket.delete()
     return redirect("ticket_list")
+
+
+@login_required
+def feed(request):
+    user = request.user
+    followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
+
+    tickets = Ticket.objects.filter(user__in=list(followed_users) + [user]).annotate(
+        content_type=Value('TICKET', CharField()))
+
+    user_tickets = Ticket.objects.filter(user=user)
+    reviews = Review.objects.filter(ticket__in=user_tickets) | Review.objects.filter(
+        user__in=list(followed_users) + [user])
+    reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
+
+    posts = sorted(chain(reviews, tickets), key=lambda post: post.time_created, reverse=True)
+
+    return render(request, 'tickets/feed.html', {'posts': posts})

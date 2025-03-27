@@ -1,6 +1,6 @@
 from django import forms
 from tickets.models import Ticket
-from tickets.views import ticket_list
+from tickets.views import feed
 from .models import Review
 
 
@@ -29,7 +29,7 @@ class TicketReviewForm(forms.ModelForm):
             body=self.cleaned_data["body"]
         )
 
-        return ticket_list
+        return feed
 
 
 class ReviewForm(forms.ModelForm):
