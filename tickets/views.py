@@ -19,7 +19,7 @@ def create_ticket(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect("signin_success")
+            return redirect("feed")
     else:
         form = TicketForm()
 
@@ -49,7 +49,7 @@ def delete_ticket(request, ticket_id):
 
     if request.method == "POST":
         ticket.delete()
-    return redirect("ticket_list")
+    return redirect("feed")
 
 
 @login_required

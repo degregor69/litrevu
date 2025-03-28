@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import create_ticket_review, create_review, edit_review, delete_review
+from .views import create_ticket_review, create_review, update_review, delete_review
 
 urlpatterns = [
     path(
@@ -8,8 +8,8 @@ urlpatterns = [
         name="create_ticket_review"),
     path(
         "review/edit/<int:review_id>/",
-        edit_review,
-        name="edit_review"),
+        update_review,
+        name="update_review"),
     path(
         "review/create/<int:ticket_id>/",
         create_review,
