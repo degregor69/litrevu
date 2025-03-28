@@ -34,13 +34,13 @@
     <h2 class="text-xl font-semibold mt-6">Mes Reviews</h2>
     {% for review in user_reviews %}
     <div class="border-b py-4">
-        <h3 class="text-xl font-semibold underline"> {{ review.ticket.title }}</h3>
+        <h3 class="flex text-xl font-semibold">Ticket :<p class="ml-1 underline">{{ review.ticket.title }}</p></h3>
         <h4 class="text-lg font-semibold">{{ review.headline }}</h4>
         <p class="text-gray-600">{{ review.body }}</p>
         <p class="text-sm text-gray-500">Publié le {{ review.time_created|date:"d/m/Y H:i" }}</p>
 
         <div class="mt-4 flex gap-2">
-            <a href="{% url 'edit_review' review.id %}" class="text-blue-500 hover:underline">Modifier</a>
+            <a href="{% url 'update_review' review.id %}" class="text-blue-500 hover:underline">Modifier</a>
             <form action="{% url 'delete_review' review.id %}" method="post">
                 {% csrf_token %}
                 <button type="submit" class="text-red-500 hover:underline"
