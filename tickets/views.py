@@ -25,6 +25,7 @@ def create_ticket(request):
 
     return render(request, "tickets/create_ticket.html", {"form": form})
 
+
 @login_required
 def update_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
@@ -39,6 +40,7 @@ def update_ticket(request, ticket_id):
         form = TicketForm(instance=ticket)
 
     return render(request, "tickets/update_ticket.html", {"form": form, "ticket": ticket})
+
 
 @login_required
 def delete_ticket(request, ticket_id):
@@ -55,7 +57,8 @@ def delete_ticket(request, ticket_id):
 @login_required
 def feed(request):
     user = request.user
-    followed_users = UserFollows.objects.filter(user=user).values_list('followed_user', flat=True)
+    followed_users = UserFollows.objects.filter(
+        user=user).values_list('followed_user', flat=True)
 
     tickets = Ticket.objects.filter(user__in=list(followed_users) + [user]).annotate(
         content_type=Value('TICKET', CharField()),
@@ -68,6 +71,7 @@ def feed(request):
         user__in=list(followed_users) + [user])
     reviews = reviews.annotate(content_type=Value('REVIEW', CharField()))
 
-    posts = sorted(chain(reviews, tickets), key=lambda post: post.time_created, reverse=True)
+    posts = sorted(chain(reviews, tickets),
+                   key=lambda post: post.time_created, reverse=True)
 
     return render(request, 'tickets/feed.html', {'posts': posts})

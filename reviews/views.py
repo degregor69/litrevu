@@ -18,6 +18,7 @@ def create_ticket_review(request):
 
     return render(request, "reviews/create_ticket_review.html", {"form": form})
 
+
 @login_required
 def create_review(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)

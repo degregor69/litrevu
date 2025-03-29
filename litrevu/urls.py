@@ -30,4 +30,3 @@ urlpatterns = [
     path("follows/", include("follows.urls")),
     path("posts/", user_posts, name="posts"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-

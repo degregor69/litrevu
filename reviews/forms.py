@@ -5,9 +5,12 @@ from .models import Review
 
 
 class TicketReviewForm(forms.ModelForm):
-    headline = forms.CharField(label="Titre de la critique", max_length=128, required=True)
-    rating = forms.IntegerField(label="Note (0-5)", min_value=0, max_value=5, required=True)
-    body = forms.CharField(label="Votre critique", widget=forms.Textarea, required=True)
+    headline = forms.CharField(
+        label="Titre de la critique", max_length=128, required=True)
+    rating = forms.IntegerField(
+        label="Note (0-5)", min_value=0, max_value=5, required=True)
+    body = forms.CharField(label="Votre critique",
+                           widget=forms.Textarea, required=True)
 
     class Meta:
         model = Ticket

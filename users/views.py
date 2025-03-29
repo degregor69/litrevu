@@ -8,6 +8,7 @@ from reviews.models import Review
 from tickets.models import Ticket
 from .forms import SignUpForm
 
+
 def signup_view(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -18,6 +19,7 @@ def signup_view(request):
     else:
         form = SignUpForm()
     return render(request, "users/signup.html", {"form": form})
+
 
 class CustomLoginView(LoginView):
     template_name = "users/login.html"
@@ -32,8 +34,10 @@ def logout_view(request):
 def signup_success(request):
     return render(request, "users/signup_success.html")
 
+
 def signin_success(request):
     return render(request, "users/signin_success.html")
+
 
 @login_required
 def user_posts(request):
