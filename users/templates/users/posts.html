@@ -8,19 +8,19 @@
     <h2 class="text-xl font-semibold mt-6">Mes Tickets</h2>
     {% for ticket in user_tickets %}
     <div class="border-b py-4">
-        <h4 class="text-lg font-semibold">{{ ticket.title }}</h4>
+        <h3 class="text-lg font-semibold">{{ ticket.title }}</h3>
         <p class="text-gray-600">{{ ticket.description }}</p>
         <p class="text-sm text-gray-500">Publié le {{ ticket.time_created|date:"d/m/Y H:i" }}</p>
 
         {% if ticket.image %}
-            <img src="{{ ticket.image.url }}" alt="Image du ticket" class="mt-2 w-[100px] h-auto rounded-lg">
+            <img src="{{ ticket.image.url }}" alt="Image de {{ ticket.title }}" class="mt-2 w-[100px] h-auto rounded-lg">
         {% endif %}
 
         <div class="mt-4 flex gap-2">
-            <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-500 hover:underline">Modifier</a>
+            <a href="{% url 'update_ticket' ticket.id %}" class="text-blue-700 hover:underline">Modifier</a>
             <form action="{% url 'delete_ticket' ticket.id %}" method="post">
                 {% csrf_token %}
-                <button type="submit" class="text-red-500 hover:underline"
+                <button type="submit" class="text-red-700 hover:underline"
                     onclick="return confirm('Voulez-vous vraiment supprimer ce ticket ?');">
                     Supprimer
                 </button>
@@ -34,16 +34,16 @@
     <h2 class="text-xl font-semibold mt-6">Mes Reviews</h2>
     {% for review in user_reviews %}
     <div class="border-b py-4">
-        <h3 class="flex text-xl font-semibold">Ticket :<p class="ml-1 underline">{{ review.ticket.title }}</p></h3>
-        <h4 class="text-lg font-semibold">{{ review.headline }}</h4>
+        <h3 class="flex text-xl font-semibold">Ticket :<p class="ml-1">{{ review.ticket.title }}</p></h3>
+        <h3 class="text-lg font-semibold">{{ review.headline }}</h3>
         <p class="text-gray-600">{{ review.body }}</p>
         <p class="text-sm text-gray-500">Publié le {{ review.time_created|date:"d/m/Y H:i" }}</p>
 
         <div class="mt-4 flex gap-2">
-            <a href="{% url 'update_review' review.id %}" class="text-blue-500 hover:underline">Modifier</a>
+            <a href="{% url 'update_review' review.id %}" class="text-blue-700 hover:underline">Modifier</a>
             <form action="{% url 'delete_review' review.id %}" method="post">
                 {% csrf_token %}
-                <button type="submit" class="text-red-500 hover:underline"
+                <button type="submit" class="text-red-700 hover:underline"
                     onclick="return confirm('Voulez-vous vraiment supprimer cette review ?');">
                     Supprimer
                 </button>

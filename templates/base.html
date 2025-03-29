@@ -12,25 +12,25 @@
         <div class="container mx-auto flex justify-between items-center px-6">
             <h1 class="text-2xl font-bold">LitRevu</h1>
             <nav class="flex">
-                <a href="{% url 'feed' %}" class="px-4 py-2 text-white rounded">
+                <a href="{% url 'feed' %}" class="px-4 py-2 text-white rounded" aria-label="Aller sur la page Flux">
                     Flux
                 </a>
-                <a href="{% url 'follows_index' %}" class="px-4 py-2 text-white rounded">
+                <a href="{% url 'follows_index' %}" class="px-4 py-2 text-white rounded" aria-label="Aller sur la page Abonnements">
                     Abonnements
                 </a>
-                <a href="{% url 'posts' %}" class="px-4 py-2 text-white rounded">
+                <a href="{% url 'posts' %}" class="px-4 py-2 text-white rounded" aria-label="Aller sur la page Posts">
                     Posts
                 </a>
                 {% if request.user.is_authenticated %}
                     <form action="{% url 'logout' %}" method="post">
                         {% csrf_token %}
-                        <button class="px-4 py-2 bg-red-500 hover:bg-red-700 text-white rounded" type="submit">Déconnexion</button>
+                        <button class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded" type="submit" aria-label="Se déconnecter">Déconnexion</button>
                     </form>
                 {% else %}
-                    <a href="{% url 'login' %}" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded mr-2">
+                    <a href="{% url 'login' %}" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded mr-2" aria-label="Se connecter">
                         Connexion
                     </a>
-                    <a href="{% url 'signup' %}" class="px-4 py-2 bg-green-500 hover:bg-green-700 text-white rounded">
+                    <a href="{% url 'signup' %}" class="px-4 py-2 bg-green-500 hover:bg-green-700 text-white rounded" aria-label="S'inscrire">
                         Inscription
                     </a>
                 {% endif %}
@@ -42,7 +42,6 @@
             {% block content %}{% endblock %}
     </main>
 
-    <!-- ✅ FOOTER -->
     <footer class="bg-gray-600 text-white text-center py-4 mt-6 w-full fixed bottom-0">
         <p>&copy; 2025 - LitRevu. Tous droits réservés.</p>
     </footer>

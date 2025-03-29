@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
+<section class="max-w-2xl mx-auto bg-white p-6 rounded-lg shadow-md">
     <div class="mb-4 flex items-center space-x-2">
         <form class="flex gap-2" method="POST" action="{% url 'follow' %}">
             {% csrf_token %}
-            <input type="text" name="username" placeholder="Entrez le nom de l'utilisateur" class="p-2 border rounded w-full">
-            <button type="submit" class="p-2 bg-blue-500 text-white rounded">S'abonner</button>
+            <input type="text" name="username" placeholder="Entrez le nom de l'utilisateur" aria-label="S'abonner à cet utilisateur" class="p-2 border rounded w-full">
+            <button type="submit" class="p-2 bg-blue-600 text-white rounded">S'abonner</button>
         </form>
     </div>
     <p id="message" class="text-gray-500 gap-2">
@@ -14,8 +14,8 @@
         {% endif %}
     </p>
 
-    <div class="mb-6">
-        <h3 class="text-xl font-semibold text-gray-700 mb-2">Abonnements</h3>
+    <section class="mb-6">
+        <h2 class="text-xl font-semibold text-gray-700 mb-2">Abonnements</h2>
         {% if following %}
             <ul>
                 {% for follow in following %}
@@ -23,7 +23,7 @@
                     {{ follow.followed_user.username }}
                     <form method="POST" action="{% url 'unfollow' follow.id %}" class="inline">
                         {% csrf_token %}
-                        <button type="submit" class="p-1 bg-red-500 text-white rounded">Se désabonner</button>
+                        <button type="submit" class="p-1 bg-red-600 text-white rounded" aria-label="Se désabonner de {{ follow.followed_user.username }}">Se désabonner</button>
                     </form>
                 </li>
                 {% endfor %}
@@ -31,10 +31,10 @@
         {% else %}
             <p class="text-gray-500">Vous ne suivez personne pour le moment.</p>
         {% endif %}
-    </div>
+    </section>
 
-    <div>
-        <h3 class="text-xl font-semibold text-gray-700 mb-2">Abonnés</h3>
+    <section>
+        <h2 class="text-xl font-semibold text-gray-700 mb-2">Abonnés</h2>
         {% if followers %}
             <ul>
                 {% for follow in followers %}
@@ -44,6 +44,6 @@
         {% else %}
             <p class="text-gray-500">Vous n'avez pas encore d'abonnés.</p>
         {% endif %}
-    </div>
-</div>
+    </section>
+</section>
 {% endblock %}
