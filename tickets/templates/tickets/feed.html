@@ -30,7 +30,7 @@
                     <p class="text-sm text-gray-500">Publié par <strong>{{ post.user.username }}</strong> le {{ post.time_created|date:"d/m/Y H:i" }}</p>
 
                     {% if post.image %}
-                        <img src="{{ post.image.url }}" alt="Image du ticket" class="mt-2 w-[100px] h-auto rounded-lg">
+                        <img src="{{ post.image.url }}" alt="Image de {{ post.title }}" class="mt-2 w-[100px] h-auto rounded-lg">
                     {% endif %}
 
                     <div class="mt-4">
@@ -62,7 +62,7 @@
                         <p class="text-sm text-gray-500">Publié par <strong>{{ post.ticket.user.username }}</strong> le {{ post.ticket.time_created|date:"d/m/Y H:i" }}</p>
 
                         {% if post.ticket.image %}
-                            <img src="{{ post.ticket.image.url }}" alt="Image du ticket" class="mt-2 w-[100px] h-auto rounded-lg">
+                            <img src="{{ post.ticket.image.url }}" alt="Image du ticket {{ post.ticket.title }}" class="mt-2 w-[100px] h-auto rounded-lg">
                         {% endif %}
                     </div>
                 </div>
