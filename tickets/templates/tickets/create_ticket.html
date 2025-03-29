@@ -11,7 +11,7 @@
             {% for field in form %}
                 <div class="flex flex-col">
                     <label class="font-medium">{{ field.label }}</label>
-                    <p class="border">{{ field }}</p>
+                    {{ field }}
                 </div>
             {% endfor %}
         </div>

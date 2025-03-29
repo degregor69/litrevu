@@ -1,12 +1,12 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
 from reviews.models import Review
 from tickets.models import Ticket
-from .forms import SignUpForm
+from .forms import SignUpForm, LoginForm
 
 
 def signup_view(request):
@@ -20,11 +20,17 @@ def signup_view(request):
         form = SignUpForm()
     return render(request, "users/signup.html", {"form": form})
 
+def login_view(request):
+    if request.method == "POST":
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect("feed")
+    else:
+        form = LoginForm()
 
-class CustomLoginView(LoginView):
-    template_name = "users/login.html"
-    success_url = reverse_lazy("signin_success")
-
+    return render(request, "users/login.html", {"form": form})
 
 def logout_view(request):
     logout(request)

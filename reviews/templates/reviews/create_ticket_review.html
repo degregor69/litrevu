@@ -7,9 +7,13 @@
     <h2 class="text-2xl font-semibold text-center mb-4">Créer une Critique avec un Ticket</h2>
     <form method="post" enctype="multipart/form-data" class="space-y-4">
         {% csrf_token %}
-        <div class="space-y-2">
-            {{ form.as_p }}
-        </div>
+        {% for field in form %}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="font-semibold">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+
         <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
             Publier
         </button>

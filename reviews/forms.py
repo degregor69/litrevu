@@ -3,18 +3,34 @@ from tickets.models import Ticket
 from tickets.views import feed
 from .models import Review
 
-
 class TicketReviewForm(forms.ModelForm):
     headline = forms.CharField(
-        label="Titre de la critique", max_length=128, required=True)
+        label="Titre de la critique",
+        max_length=128,
+        required=True,
+        widget=forms.TextInput(attrs={"class": "w-full p-2 border rounded"})
+    )
     rating = forms.IntegerField(
-        label="Note (0-5)", min_value=0, max_value=5, required=True)
-    body = forms.CharField(label="Votre critique",
-                           widget=forms.Textarea, required=True)
+        label="Note (0-5)",
+        min_value=0,
+        max_value=5,
+        required=True,
+        widget=forms.NumberInput(attrs={"class": "w-full p-2 border rounded", "min": 0, "max": 5})
+    )
+    body = forms.CharField(
+        label="Votre critique",
+        required=True,
+        widget=forms.Textarea(attrs={"class": "w-full p-2 border rounded", "rows": 4})
+    )
 
     class Meta:
         model = Ticket
         fields = ["title", "description", "image"]
+        widgets = {
+            "title": forms.TextInput(attrs={"class": "w-full p-2 border rounded"}),
+            "description": forms.Textarea(attrs={"class": "w-full p-2 border rounded", "rows": 4}),
+            "image": forms.ClearableFileInput(attrs={"class": "w-full p-2 border rounded"}),
+        }
 
     def save(self, user):
         ticket = Ticket.objects.create(

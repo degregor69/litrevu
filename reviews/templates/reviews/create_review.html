@@ -7,7 +7,14 @@
     
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+
+        {% for field in form %}
+            <div class="mb-4">
+                <label for="{{ field.id_for_label }}" class="block font-semibold">{{ field.label }}</label>
+                {{ field }}
+            </div>
+        {% endfor %}
+
         <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-700 text-white rounded">
             Publier la critique
         </button>
