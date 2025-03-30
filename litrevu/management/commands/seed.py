@@ -15,12 +15,12 @@ class Command(BaseCommand):
     help = 'Seed the database with sample data'
     def handle(self, *args, **kwargs):
         users = []
-        # user = CustomUser.objects.create_user(
-        #     username="test_user",
-        #     email=fake.email(),
-        #     password="test_user_password",
-        # )
-        # users.append(user)
+        user = CustomUser.objects.create_user(
+            username="test_user",
+            email=fake.email(),
+            password="password123",
+        )
+        users.append(user)
 
         for i in range(4):
             user = CustomUser.objects.create_user(
@@ -48,7 +48,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS("10 tickets créés"))
 
         for ticket in tickets:
-            if random.choice([True, False]):  # 50% chance qu'un ticket ait une review
+            if random.choice([True, False]):
                 user = random.choice(users)
                 review = Review.objects.create(
                     ticket=ticket,
@@ -66,7 +66,7 @@ class Command(BaseCommand):
                 followed_user=followed_user,
             )
 
-        self.stdout.write(self.style.SUCCESS("Relais de suivi créés"))
+        self.stdout.write(self.style.SUCCESS("Abonnements au hasard créés."))
 
 
 def get_random_image():
