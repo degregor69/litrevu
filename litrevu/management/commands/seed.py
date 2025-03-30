@@ -67,11 +67,8 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("Abonnements au hasard créés."))
 
-
 def get_random_image():
     media_path = os.path.join(settings.MEDIA_ROOT, "tickets_images")
     images = [f for f in os.listdir(media_path) if os.path.isfile(os.path.join(media_path, f))]
-
-
     random_image = random.choice(images)
-    return os.path.join(media_path, random_image)
+    return os.path.join("tickets_images", random_image)
