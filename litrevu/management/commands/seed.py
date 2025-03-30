@@ -13,6 +13,7 @@ fake = Faker()
 
 class Command(BaseCommand):
     help = 'Seed the database with sample data'
+
     def handle(self, *args, **kwargs):
         users = []
         user = CustomUser.objects.create_user(
@@ -56,7 +57,8 @@ class Command(BaseCommand):
                     headline=fake.sentence(nb_words=5),
                     body=fake.text(max_nb_chars=300),
                 )
-                self.stdout.write(self.style.SUCCESS(f"Review pour le ticket {ticket.title} créée"))
+                self.stdout.write(self.style.SUCCESS(
+                    f"Review pour le ticket {ticket.title} créée"))
 
         for user in users:
             followed_user = random.choice([u for u in users if u != user])
@@ -67,8 +69,10 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("Abonnements au hasard créés."))
 
+
 def get_random_image():
     media_path = os.path.join(settings.MEDIA_ROOT, "tickets_images")
-    images = [f for f in os.listdir(media_path) if os.path.isfile(os.path.join(media_path, f))]
+    images = [f for f in os.listdir(media_path) if os.path.isfile(
+        os.path.join(media_path, f))]
     random_image = random.choice(images)
     return os.path.join("tickets_images", random_image)

@@ -20,6 +20,7 @@ def signup_view(request):
         form = SignUpForm()
     return render(request, "users/signup.html", {"form": form})
 
+
 def login_view(request):
     if request.method == "POST":
         form = LoginForm(request, data=request.POST)
@@ -31,6 +32,7 @@ def login_view(request):
         form = LoginForm()
 
     return render(request, "users/login.html", {"form": form})
+
 
 def logout_view(request):
     logout(request)

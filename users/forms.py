@@ -2,6 +2,7 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser
 from django import forms
 
+
 class SignUpForm(UserCreationForm):
     class Meta:
         model = CustomUser
@@ -21,5 +22,7 @@ class SignUpForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(label="Nom d'utilisateur", widget=forms.TextInput(attrs={"class": "w-full p-2 border rounded"}))
-    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput(attrs={"class": "w-full p-2 border rounded"}))
+    username = forms.CharField(label="Nom d'utilisateur", widget=forms.TextInput(
+        attrs={"class": "w-full p-2 border rounded"}))
+    password = forms.CharField(label="Mot de passe", widget=forms.PasswordInput(
+        attrs={"class": "w-full p-2 border rounded"}))

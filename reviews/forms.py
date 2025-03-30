@@ -3,6 +3,7 @@ from tickets.models import Ticket
 from tickets.views import feed
 from .models import Review
 
+
 class TicketReviewForm(forms.ModelForm):
     headline = forms.CharField(
         label="Titre de la critique",
@@ -15,12 +16,14 @@ class TicketReviewForm(forms.ModelForm):
         min_value=0,
         max_value=5,
         required=True,
-        widget=forms.NumberInput(attrs={"class": "w-full p-2 border rounded", "min": 0, "max": 5})
+        widget=forms.NumberInput(
+            attrs={"class": "w-full p-2 border rounded", "min": 0, "max": 5})
     )
     body = forms.CharField(
         label="Votre critique",
         required=True,
-        widget=forms.Textarea(attrs={"class": "w-full p-2 border rounded", "rows": 4})
+        widget=forms.Textarea(
+            attrs={"class": "w-full p-2 border rounded", "rows": 4})
     )
 
     class Meta:
