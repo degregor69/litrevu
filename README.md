@@ -4,6 +4,9 @@ Litrevu est une application web développée avec Django.
 
 ## Installation
 
+### Avant de commander
+Assurez-vous d'avoir Python installé sur votre machine.
+
 ### 1. Cloner le projet
 ```sh
 git clone https://github.com/degregor69/litrevu
