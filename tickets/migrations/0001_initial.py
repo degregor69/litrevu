@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 (
                     "image",
                     models.ImageField(
-                        blank=True, null=True, upload_to="ticket_images/"
+                        blank=True, null=True, upload_to="tickets_images/"
                     ),
                 ),
                 ("time_created", models.DateTimeField(auto_now_add=True)),

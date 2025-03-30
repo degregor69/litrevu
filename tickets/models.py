@@ -11,7 +11,7 @@ class Ticket(models.Model):
         on_delete=models.CASCADE
     )
     image = models.ImageField(null=True, blank=True,
-                              upload_to="ticket_images/", verbose_name="Image")
+                              upload_to="tickets_images/", verbose_name="Image")
     time_created = models.DateTimeField(auto_now_add=True)
 
     def has_user_review(self, user):
