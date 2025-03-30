@@ -32,16 +32,15 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("5 utilisateurs créés"))
 
-        # Création de tickets
         tickets = []
-        for _ in range(10):  # Crée 10 tickets
+        for _ in range(10):
             user = random.choice(users)
             ticket = Ticket.objects.create(
                 title=fake.sentence(nb_words=5),
                 description=fake.text(max_nb_chars=200),
                 user=user,
                 time_created=fake.date_this_year(),
-                image="https://picsum.photos/300/300"
+                image=get_random_image(),
             )
             tickets.append(ticket)
 
@@ -72,6 +71,7 @@ class Command(BaseCommand):
 def get_random_image():
     media_path = os.path.join(settings.MEDIA_ROOT, "tickets_images")
     images = [f for f in os.listdir(media_path) if os.path.isfile(os.path.join(media_path, f))]
+
 
     random_image = random.choice(images)
     return os.path.join(media_path, random_image)
