@@ -35,7 +35,7 @@ def update_ticket(request, ticket_id):
         form = TicketForm(request.POST, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect("ticket_list")
+            return redirect("feed")
     else:
         form = TicketForm(instance=ticket)
 
